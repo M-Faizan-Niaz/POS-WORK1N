@@ -3,15 +3,18 @@ import { FaHome } from "react-icons/fa";
 import { MdOutlineReorder, MdTableBar } from "react-icons/md";
 import { CiCircleMore } from "react-icons/ci";
 import { BiSolidDish } from "react-icons/bi";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Modal from "./Modal";
 
 const BottomNav = () => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const location = useLocation();
   const [guestcount, setGuestCount] = useState(0);
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+  // useLocation() is a React Router hook that gives us information about the current URL.
+  // 📍 It tells you "Where are you right now in the app?"
 
   const increment = () => {
     if (guestcount >= 6) return;
@@ -22,25 +25,34 @@ const BottomNav = () => {
     setGuestCount(guestcount - 1);
   };
 
+  const isActive = (path) => location.pathname === path;
+  // Is the current path same as the one passed in?
+
   return (
     <div className="fixed bottom-0 left-0 right-0 bg-[#262626] h-16 p-2 flex justify-around text-[#f5f5f5]">
       <button
         onClick={() => navigate("/")}
-        className="flex items-center justify-center text-[#ababab] bg-[#343434] w-[200px] rounded-[20px]"
+        className={`flex items-center justify-center font-bold ${
+          isActive("/") ? "text-[#f5f5f5] bg-[#343434]" : "text-[#ababab]"
+        } w-[300px] rounded-[20px]`}
       >
         <FaHome className="inline mr-2 " size={20} />
         <p>Home</p>
       </button>
       <button
         onClick={() => navigate("/orders")}
-        className="flex items-center justify-center text-[#ababab] w-[200px]"
+        className={`flex items-center justify-center font-bold ${
+          isActive("/orders") ? "text-[#f5f5f5] bg-[#343434]" : "text-[#ababab]"
+        } w-[300px] rounded-[20px]`}
       >
         <MdOutlineReorder className="inline mr-2 " size={20} />
         <p>Orders</p>
       </button>
       <button
         onClick={() => navigate("/tables")}
-        className="flex items-center justify-center text-[#ababab]  w-[200px]"
+        className={`flex items-center justify-center font-bold ${
+          isActive("/tables") ? "text-[#f5f5f5] bg-[#343434]" : "text-[#ababab]"
+        } w-[300px] rounded-[20px]`}
       >
         <MdTableBar className="inline mr-2 " size={20} />
         <p>Tables</p>
@@ -50,6 +62,7 @@ const BottomNav = () => {
         <p>More</p>
       </button>
       <button
+        disabled={isActive("/tables") || isActive("/menu")}
         onClick={openModal}
         className="absolute bottom-5 bg-[#F6B100] text-[#f5f5f5] rounded-full p-3 items-center"
       >

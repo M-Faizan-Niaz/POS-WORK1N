@@ -7,7 +7,7 @@ import CartInfo from "../components/menu/CartInfo";
 
 const Menu = () => {
   return (
-    <section className="bg-[#1f1f1f] min-h-screen flex gap-3 pb-20 overflow-y-auto">
+    <section className="bg-[#1f1f1f] min-h-screen flex gap-3 pb-20 overflow-y-auto custom-scrollbar-hide">
       {/* Left div */}
 
       <div className="flex-[3] ">
@@ -51,6 +51,9 @@ const Menu = () => {
         <hr className="border-[#2a2a2a] border-t-3 mt-4" />
         {/* Order Details */}
         <div className="flex-col-1 gap-2 overflow-y-scroll custom-scrollbar-hide ">
+          <div className="text-white font-bold text-xl m-4 tracking-wider">
+            <h3>Order Details</h3>
+          </div>
           <CartInfo />
           <CartInfo />
           <CartInfo />

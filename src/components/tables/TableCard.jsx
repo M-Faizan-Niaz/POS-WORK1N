@@ -3,7 +3,7 @@ import { FaCheckDouble } from "react-icons/fa";
 import { getRandomBG } from "../../utils";
 import { useNavigate } from "react-router-dom";
 
-const TableCard = ({ key, name, status, initials }) => {
+const TableCard = ({ key, name, status, initials, seats }) => {
   const navigate = useNavigate();
   const handleClick = () => {
     if (status === "Booked") return;
@@ -11,7 +11,8 @@ const TableCard = ({ key, name, status, initials }) => {
   };
 
   return (
-    <div onClick={handleClick}
+    <div
+      onClick={handleClick}
       key={key}
       className="w-[300px] bg-[#262626] hover:bg-[#2c2c2c2c] p-4 rounded-lg  cursor-pointer shadow-lg"
     >
@@ -32,6 +33,9 @@ const TableCard = ({ key, name, status, initials }) => {
           {initials}
         </h1>
       </div>
+      <p className="text-[#ababab] text-xs">
+        Seats:<span className="text-[#f5f6f6]">{seats}</span>
+      </p>
     </div>
   );
 };
