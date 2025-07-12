@@ -30,7 +30,7 @@ const Header = () => {
         <div className="flex items-center gap-2">
           <FaUserCircle className="text-[#f5f5f5] text-2xl" />
           <div>
-            <p className="text-sm font-semibold text-[#f5f5f5]">Faizan</p>
+            <p className="text-sm font-semibold text-[#f5f5f5]">Mustufa</p>
             <p className="text-xs text-[#aaa]">Admin</p>
           </div>
         </div>

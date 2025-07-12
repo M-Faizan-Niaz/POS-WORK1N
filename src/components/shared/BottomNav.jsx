@@ -5,6 +5,8 @@ import { CiCircleMore } from "react-icons/ci";
 import { BiSolidDish } from "react-icons/bi";
 import { useLocation, useNavigate } from "react-router-dom";
 import Modal from "./Modal";
+import { useDispatch } from "react-redux";
+import { setCustomer } from "../../redux/slices/customerSlice";
 
 const BottomNav = () => {
   const navigate = useNavigate();
@@ -13,6 +15,9 @@ const BottomNav = () => {
   const [guestcount, setGuestCount] = useState(0);
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+  const [name, setName] = useState();
+  const [phone, setPhone] = useState();
+  const dispatch = useDispatch(); // dispatch() is the person putting that note on the whiteboard.
   // useLocation() is a React Router hook that gives us information about the current URL.
   // 📍 It tells you "Where are you right now in the app?"
 
@@ -23,6 +28,13 @@ const BottomNav = () => {
   const decrement = () => {
     if (guestcount <= 0) return;
     setGuestCount(guestcount - 1);
+  };
+
+  const handleCreateOrder = () => {
+    // send the data to store
+    dispatch(setCustomer({ name, phone, guests: guestcount }));
+    //“Hey! I want to update something in the store with this new information. Here's the action!”
+    navigate("/tables");
   };
 
   const isActive = (path) => location.pathname === path;
@@ -76,6 +88,8 @@ const BottomNav = () => {
           </label>
           <div className="flex items-center rounded-lg p-3 px-4 bg-[#1f1f1f]">
             <input
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               type="text"
               name=""
               placeholder="Enter customer name"
@@ -90,6 +104,8 @@ const BottomNav = () => {
           </label>
           <div className="flex items-center rounded-lg p-3 px-4 bg-[#1f1f1f]">
             <input
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
               type="number"
               name=""
               placeholder="03-00000000"
@@ -113,7 +129,7 @@ const BottomNav = () => {
           </div>
         </div>
         <button
-          onClick={() => navigate("/tables")}
+          onClick={handleCreateOrder}
           className="w-full bg-[#F6B100] text-[#f5f5f5] rounded-lg py-3 mt-9 hover:bg-yellow-700"
         >
           Create Order

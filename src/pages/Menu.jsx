@@ -1,11 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import BottomNav from "../components/shared/BottomNav";
 import BackButton from "../components/shared/BackButton";
 import { MdRestaurantMenu } from "react-icons/md";
 import MenuContainer from "../components/menu/MenuContainer";
 import CartInfo from "../components/menu/CartInfo";
+import { useSelector } from "react-redux";
+import { formatDate, getAvatarName } from "../utils";
 
 const Menu = () => {
+  const [dateTime, setDateTime] = useState(new Date());
+  const customerData = useSelector((state) => state.customer);
+
   return (
     <section className="bg-[#1f1f1f] min-h-screen flex gap-3 pb-20 overflow-y-auto custom-scrollbar-hide">
       {/* Left div */}
@@ -23,9 +28,9 @@ const Menu = () => {
               <MdRestaurantMenu className="text-[#f5f5f5] text-2xl" />
               <div>
                 <p className="text-sm font-semibold text-[#f5f5f5]">
-                  Customer Name
+                  {customerData.customerName || "Customer Name"}
                 </p>
-                <p className="text-xs text-[#aaa]">Table No:2</p>
+                <p className="text-xs text-[#aaa]">{customerData.tableNo || "N/A"}</p>
               </div>
             </div>
           </div>
@@ -39,13 +44,17 @@ const Menu = () => {
         <div className="flex justify-between items-center m-4">
           <div className="flex-col-1">
             <h3 className="text-[#f5f5f5] text-lg font-bold tracking-wide mt-1">
-              Cutsomer Name
+              {customerData.customerName || "Customer Name"}
             </h3>
-            <p className="text-[#aaa] text-sm mt-1">#101/Dine in</p>
-            <p className="text-[#aaa] text-sm mt-1">July 9, 2025 05:34</p>
+            <p className="text-[#aaa] text-sm mt-1">
+              #{customerData.orderId || "N/A"} / Dine in
+            </p>
+            <p className="text-[#aaa] text-sm mt-1">
+              {formatDate(dateTime)}
+            </p>
           </div>
           <div className="flex rounded-lg p-2 bg-[#F6B100] text-lg font-bold">
-            CN
+            {getAvatarName(customerData.customerName) || "CN"}
           </div>
         </div>
         <hr className="border-[#2a2a2a] border-t-3 mt-4" />
