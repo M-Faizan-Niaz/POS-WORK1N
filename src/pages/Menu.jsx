@@ -6,11 +6,16 @@ import MenuContainer from "../components/menu/MenuContainer";
 import CartInfo from "../components/menu/CartInfo";
 import { useSelector } from "react-redux";
 import { formatDate, getAvatarName } from "../utils";
+import { getTotalPrice } from "../redux/slices/cartSlice";
 
 const Menu = () => {
   const [dateTime, setDateTime] = useState(new Date());
   const customerData = useSelector((state) => state.customer);
-
+  const cartData = useSelector(state => state.cart)
+  const total = useSelector(getTotalPrice);
+  const taxRate = 5.25;
+  const tax = (total * taxRate) / 100;
+  const totalPriceWithTax = total + tax;
   return (
     <section className="bg-[#1f1f1f] min-h-screen flex gap-3 pb-20 overflow-y-auto custom-scrollbar-hide">
       {/* Left div */}
@@ -30,7 +35,9 @@ const Menu = () => {
                 <p className="text-sm font-semibold text-[#f5f5f5]">
                   {customerData.customerName || "Customer Name"}
                 </p>
-                <p className="text-xs text-[#aaa]">{customerData.tableNo || "N/A"}</p>
+                <p className="text-xs text-[#aaa]">
+                  {customerData.tableNo || "N/A"}
+                </p>
               </div>
             </div>
           </div>
@@ -49,9 +56,7 @@ const Menu = () => {
             <p className="text-[#aaa] text-sm mt-1">
               #{customerData.orderId || "N/A"} / Dine in
             </p>
-            <p className="text-[#aaa] text-sm mt-1">
-              {formatDate(dateTime)}
-            </p>
+            <p className="text-[#aaa] text-sm mt-1">{formatDate(dateTime)}</p>
           </div>
           <div className="flex rounded-lg p-2 bg-[#F6B100] text-lg font-bold">
             {getAvatarName(customerData.customerName) || "CN"}
@@ -63,23 +68,23 @@ const Menu = () => {
           <div className="text-white font-bold text-xl m-4 tracking-wider">
             <h3>Order Details</h3>
           </div>
+
           <CartInfo />
-          <CartInfo />
-          <CartInfo />
-          <CartInfo />
-          <CartInfo />
-          <CartInfo />
-          <CartInfo />
+          
         </div>
         <hr className="border-[#2a2a2a] border-t-3 mt-25" />
         <div className="flex justify-between items-center">
           <div className="flex-col-1 gap-3 text-[#aaa] p-3 ">
-            <p>Items(4)</p>
-            <p>Tax(5.25%)</p>
+            <p>Items({cartData.length})</p>
+            <p>Rs.{total.toFixed(2)}</p>
           </div>
           <div className="text-white gap-2 p-4 font-bold tracking-wide text-lg">
-            <p>Rs.240</p>
-            <p>Rs.40</p>
+            <p>Tax(5.25)%</p>
+            <p>Rs.{tax.toFixed(2)}</p>
+          </div>
+          <div className="text-white gap-2 p-4 font-bold tracking-wide text-lg">
+            <p>Total With Tax</p>
+            <p>Rs.{totalPriceWithTax.toFixed(2)}</p>
           </div>
         </div>
         <div className="flex-col-2 gap-5 m-7 ">
