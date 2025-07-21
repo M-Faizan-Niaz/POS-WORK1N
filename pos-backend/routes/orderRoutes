@@ -1,0 +1,16 @@
+const orderController = require("../controllers/orderController");
+const tokenVerification = require("../middlewares/tokenVerification");
+const express = require("express");
+
+const router = express.Router();
+
+router
+  .route("/")
+  .post(tokenVerification.isVerified, orderController.addOrder)
+  .get(tokenVerification.isVerified, orderController.getOrders);
+router
+  .route("/:id")
+  .get(tokenVerification.isVerified, orderController.getOrderById)
+  .put(tokenVerification.isVerified, orderController.updateOrder);
+
+module.exports = router;
